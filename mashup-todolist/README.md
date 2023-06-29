@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# 투두리스트 만들기
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 컴포넌트 만들기
 
-## Available Scripts
+- `$ npx create-react-app mashup-todolist`
+- `cd mashup-todolist`
+- `npm i react-icons styled-components@5.3.10`
+- 컴포넌트 목록
+  - TodoTemplate
+  - TodoHead
+  - TodoList
+  - TodoItem
+  - TodoCreate
+- 글로벌 스타일 추가 : createGlobalStyle
 
-In the project directory, you can run:
+## Context API를 활용한 상태 관리
 
-### `npm start`
+- 프로젝트의 규모가 커진다면 App 컴포넌트의 코드가 복잡해지거나, props를 전달해줄 때 여러 컴포넌트를 거쳐야 할 수 있다.
+- Context API 활용
+- `state`와 `dispatch`를 Context를 통해 다른 컴포넌트에서 바로 사용할 수 있도록 함
+  - 두 개의 Context를 만들어 사용
+    - `dispatch`만 필요한 컴포넌트에서 불필요한 렌더링 방지
+- Context에서 사용할 값 지정하기
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  - Provider 컴포넌트 렌더링, `value` 설정, props로 받아온 `children`값 내부에 렌더링
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- `useContext`를 사용하는 커스텀 Hook 만들기
 
-### `npm test`
+  - 다른 컴포넌트에서 `state`, `dispatch` 사용시 다음과 같이 사용
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  ```javaScript
+    import React from 'react';
+    import { useTodoState, useTodoDispatch } from '../TodoContext';
 
-### `npm run build`
+    function Sample() {
+      const state = useTodoState();
+      const dispatch = useTodoDispatch();
+      return <div>Sample</div>;
+    }
+  ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 커스텀 Hook이 TodoProvider 컴포넌트 내부에 렌더링되어 있지 않다면 에러 발생시키기
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 기능 구현하기
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- TodoCreate
+  - `onSubmit` : 새로운 항목을 추가하는 액션 `dispatch` 후, `value` 초기화 및 `open` 값 false로 전환
+  - `React.memo`를 통해 불필요한 리렌더링 방지

@@ -1,70 +1,18 @@
-# Getting Started with Create React App
+# componentDidCatch로 에러 잡아내기 / Sentry 연동
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 에러 잡아내기
 
-## Available Scripts
+- User.js에서 if문을 통해 `user`값이 존재하지 않으면 `null` 렌더링 -> 에러 발생하지 않음
+- `defaultProps` 설정
+- `componentDidCatch` 생명주기 메서드를 통해 예외처리 하지 않은 에러 발생 시 에러 발생했다고 알려주는 화면 보여주기
+  - 첫번째 파라미터는 에러 내용, 두번째 파라미터는 에러가 발생한 위치
 
-In the project directory, you can run:
+## Sentry 연동
 
-### `npm start`
+- 발견하지 못했지만 사용자가 발견하게 되는 오류는 `componentDidCatch`에서 `error`와 `info` 값을 네트워크를 통해 다른 곳으로 전달하면 되지만, Sentry라는 상용서비스를 사용하면 별도의 서버를 만들지 않아도 된다.
+- 새 프로젝트 생성
+- `npm install --save @sentry/react`
+- index.js 및 ErrorBoundary.js 수정
+- sentry의 Issues에서 실시간 확인 가능
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 편리한 도구 - Prettier, ESLint, Snippet

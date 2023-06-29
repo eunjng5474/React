@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+# 리액트 컴포넌트 스타일링
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## CSS Module
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 확장자 : `.module.css`
+- CSS 클래스 중첩 방지
+  - 리액트 컴포넌트 파일에서 해당 CSS 파일을 불러올 때 CSS 파일에 선언한 클래스 이름들이 고유해진다.
+  - 고유 CSS 클래스 이름이 만들어지는 과정에서는 파일 경로, 파일 이름, 클래스 이름, 해쉬값 등이 사용될 수 있다.
+  - `styles.Box`와 같이 import로 불러온 `styles` 객체 안에 있는 값 참조
+- 사용 시 유용한 상황
+  - 레거시 프로젝트에 리액트를 도입할 때
+  - CSS 클래스를 중복되지 않게 작성하기 위해 CSS 클래스 네이밍 규칙을 만들기 귀찮을 때
+- 스타일링 위해 `react-icons` 라이브러리 설치
+  - [문서](https://react-icons.github.io/react-icons/#/)
+  - `npm add react-icons`
+  - Font Awesome, Ionicons, Material Design Icons 등의 아이콘을 컴포넌트로 쉽게 사용 가능
+- `styles.icon`과 같이 객체 안의 값을 조회하는데, 클래스 이름에 `-`가 들어있다면 `styles['my-class']`와 같이 사용.
+  여러 개라면 `${styles.one} ${styles.tow}`
+  - classnames 라이브러리의 `bind`기능을 사용하면 더 편하다.
+    - `npm add classnames`
+    - `cx('클래스명')`과 같은 형식으로 사용
+    - 여러 개의 CSS 클래스를 사용하거나, 조건부 스타일링 시 다음과 같이 사용
+    ```CSS
+      cx('one', 'two')
+      cx('my-component', {
+        condition: true
+      })
+      cx('my-component', ['another', 'classnames'])
+    ```

@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+# API 연동하기
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## API 연동의 기본
 
-## Available Scripts
+- `$ npx create-react-app api-integrate`
+- `cd api-integrate`
+- `npm add axios`
+- 요청에 대한 상태 관리
+  - 요청 결과, 로딩 상태, 에러
+- `useEffect`에 첫번째 파라미터로 등록하는 함수는 `async`를 사용할 수 없기 때문에 함수 내부에서 `async`를 사용하는 새로운 함수를 선언해야 한다.
 
-In the project directory, you can run:
+## useReducer로 요청 상태 관리하기
 
-### `npm start`
+- `useState`의 `setState` 함수를 여러 번 사용하지 않아도 되며, 다른 곳에서도 쉽게 재사용 가능
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## useAsync 커스텀 Hook 만들어서 사용하기
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- `useAsync` 함수는 첫번째 파라미터로 API 요청을 시작하는 함수, 두번째 파라미터로 해당 함수 안에서 사용하는 `useEffect`의 `deps`로 설정되는 `deps`를 받는다.
+  - 기본값: [] => 컴포넌트가 가장 처음 렌더링할 때만 API 호출
+  - 반환하는 값: 요청 관련 상태, `fetchData` 함수
 
-### `npm test`
+## react-async로 요청 상태 관리하기
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- `react-async`: `useAsync`와 비슷한 함수가 들어있는 라이브러리
+  -> `react-use`로 대체!
+  - `npm add react-use`
+  - `useAsync` 대신 `useAsyncRetry` 사용
+- 기존 커스텀 Hook은 결과물로 배열을 반환하지만, 이 Hook은 객체 형태로 반환
+- react-async의 `useAsync`를 사용할 때 파라미터로 넣는 옵션 객체에는 호출할 함수 `promiseFn`을 넣고, 파라미터도 필드 이름과 함께 (customerId) 넣어줘야 한다.
+- useAsync 사용시 프로미스를 반환하는 함수의 파라미터를 객체형태로 해야 한다.
+  - `async function getUser({ id }) {`
+- `watch`값에 특정 값을 넣으면 이 값이 바뀔 때마다 `promiseFn`에 넣은 함수 호출
 
-### `npm run build`
+## Context와 함께 사용하기
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- UsersContext.js
+- Users.js, User.js 수정
+- 반복되는 코드 줄이기
+  - api.js
+  - asyncActionUtils.js
+- switch 문에서 `return`, `break` 하지 않을 때 여러 개의 `case`에 대해 동일한 코드 실행

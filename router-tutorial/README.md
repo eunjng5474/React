@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# 리액트 라우터
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 리액트 라우터 적용 및 기본 사용법
 
-## Available Scripts
+- 라우터 적용 : index.js에서 `BrowserRouter` 컴포넌트 사용
+- `Route`: 특정 주소에 컴포넌트 연결하기
+  - `<Route path="주소규칙" element={보여 줄 컴포넌트 JSX}>`
+  - `Route` 컴포넌트는 `Routes` 컴포넌트 내부에서 사용되어야 한다.
+- `Link` 컴포넌트 사용
+  - 리액트 라우터를 사용하는 프로젝트에서 `a`태그를 바로 사용하면 페이지 이동 시 브라우저에서 페이지를 새로 불러오기 때문에, `Link` 컴포넌트를 사용한다.
+  - `Link` 컴포넌트 역시 `a`태그를 사용하지만, 페이지를 새로 불러오는 것을 막고 History API를 통해 브라우저 주소의 경로만 바꾸는 기능 내장
+  - `<Link to="경로">링크 이름</Link>`
 
-In the project directory, you can run:
+## URL 파라미터와 쿼리스트링
 
-### `npm start`
+- URL 파라미터는 `useParams`라는 Hook을 사용해 객체 형태로 조회 가능
+- URL 파라미터의 이름은 라우트 설정을 할 때 `Route` 컴포넌트의 `path` props를 통해 설정
+- `useLocation` Hook : `location` 객체를 반환하며, 이 객체는 사용자가 보고있는 페이지의 정보를 지님
+  - pathname: 현재 주소의 경로 (쿼리스트링 제외)
+  - search: 맨 앞의 ? 문자 포함한 쿼리스트링 값
+  - hash: 주소의 # 문자열 뒤의 값
+  - state: 페이지로 이동할 때 임의로 넣을 수 있는 상태 값
+  - key: `location` 객체의 고유 값. 초기에는 `default`이며 페이지가 변경될 때마다 고유의 값 생성됨
+- 리액트 라우터 v6부터 `useSearchParams`라는 Hook을 통해 쿼리스트링을 쉽게 다룰 수 있다.
+  - 배열 타입의 값을 반환. 첫번째 원소는 쿼리파라미터를 조회하거나 수정하는 메서드들이 담긴 객체를 반환
+  - `get` 메서드를 통해 특정 쿼리파라미터를 조회할 수 있고,
+    `set` 메서드를 통해 특정 쿼리파라미터를 업데이트 할 수 있다.
+  - 조회 시 쿼리파라미터가 존재하지 않으면 `null`로 조회
+  - 두번째 원소는 쿼리파라미터를 객체형태로 업데이트 할 수 있는 함수 반환
+  - 쿼리파라미터를 조회할 때 값은 문자열 타입!! `'true'`와 같이 따옴표로 감싸거나, `parseInt`를 통해 숫자 타입으로 변환해야 한다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 중첩된 라우트
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- `Outlet` 컴포넌트 사용 : `Route`의 `children`으로 들어가는 JSX엘리먼트를 보여주는 역할
+- `index` props : `path="/"`와 동일한 의미
 
-### `npm test`
+## 리액트 라우터 부가기능
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `useNavigate` : `Link` 컴포넌트를 사용하지 않고 다른 페이지로 이동해야 하는 상황에서 사용하는 Hook
+- `navigate` 함수 : 파라미터가 숫자 타입이면 앞으로 가거나 뒤로 감
+  - `navigate(-2)` : 두 번 뒤로 가기
+  - `navigate(1)` : 한 번 앞으로 가기
+- `replace`: 페이지를 이동할 때 현재 페이지를 페이지 기록에 남기지 않음
+- `NavLink` : 링크에서 사용하는 경로가 현재 라우트의 경로와 일치하는 경우 특정 스타일 또는 CSS 클래스를 적용하는 컴포넌트
+  - `style` 또는 `className`을 설정할 때 `{ isActive: boolean }`을 파라미터로 전달받는 함수 타입의 값을 전달
+- Navigate 컴포넌트 : 페이지를 리다이렉트 하고싶을 때 사용

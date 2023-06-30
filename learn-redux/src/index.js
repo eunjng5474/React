@@ -3,12 +3,22 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { legacy_createStore as createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './modules';
+// import { composeWithDevTools } from '@redux-devtools/extension'  // 리덕스 개발자 도구
+
+const store = createStore(rootReducer)  // 스토어 생성 
+// const store = createStore(rootReducer, composeWithDevTools) 
+// composeWithDevTools를 사용하여 리덕스 개발자 도구 활성화
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Provider store={store}>
+    {/* <React.StrictMode> */}
+      <App />
+    {/* </React.StrictMode> */}
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

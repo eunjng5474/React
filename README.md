@@ -11,3 +11,4 @@
 7. [API integrate](https://github.com/eunjng5474/React/blob/master/api-integrate/README.md)
 8. [Router tutorial](https://github.com/eunjng5474/React/blob/master/router-tutorial/README.md)
 9. [Redux](https://github.com/eunjng5474/React/blob/master/learn-redux/README.md)
+10. [Redux middleware](https://github.com/eunjng5474/React/blob/master/learn-redux-middleware/README.md)

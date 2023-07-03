@@ -12,3 +12,4 @@
 8. [Router tutorial](https://github.com/eunjng5474/React/blob/master/router-tutorial/README.md)
 9. [Redux](https://github.com/eunjng5474/React/blob/master/learn-redux/README.md)
 10. [Redux middleware](https://github.com/eunjng5474/React/blob/master/learn-redux-middleware/README.md)
+11. [React with TypeScript](https://github.com/eunjng5474/React/blob/master/ts-practice/README.md)

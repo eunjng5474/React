@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
-import { dbService } from '../fbase';
+import { dbService, storageService } from '../fbase';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { deleteObject, ref } from 'firebase/storage';
 
 const Tweet = ({ tweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
   const [newTweet, setNewTweet] = useState(tweetObj.text);
   const TweetTextRef = doc(dbService, 'tweets', `${tweetObj.id}`);
+  const urlRef = ref(storageService, tweetObj.attachmentUrl);
 
   const onDeleteClick = async () => {
-    const ok = window.confirm('Are you sure you want to delete this tweet?');
+    const ok = window.confirm('정말 이 트윗을 삭제하시겠습니까?');
     if (ok) {
-      // delete tweet
-      await deleteDoc(TweetTextRef);
+      try {
+        await deleteDoc(TweetTextRef);
+        if (tweetObj.attachmentUrl !== '') {
+          await deleteObject(urlRef);
+        }
+      } catch (e) {
+        window.alert('트윗을 삭제하는 데 실패했습니다.');
+      }
     }
   };
 
@@ -48,6 +56,7 @@ const Tweet = ({ tweetObj, isOwner }) => {
       ) : (
         <>
           <h4>{tweetObj.text}</h4>
+          {tweetObj.attachmentUrl && <img src={tweetObj.attachmentUrl} width="50px" height="50px" />}
           {isOwner && (
             <>
               <button onClick={onDeleteClick}>Delete Tweet</button>

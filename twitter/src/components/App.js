@@ -5,7 +5,7 @@ import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
 
 function App() {
   const [init, setInit] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userObj, setUserObj] = useState(null);
 
   const refreshUser = () => {
@@ -18,25 +18,28 @@ function App() {
   };
 
   useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    authService.onAuthStateChanged((user) => {
       if (user) {
-        setIsLoggedIn(true);
-        // const uid = user.uid
-        refreshUser();
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: () => updateProfile(user, { displayName: user.displayName }),
+        });
         if (user.displayName === null) {
           const name = user.email.split('@')[0];
           user.displayName = name;
         }
       } else {
-        setIsLoggedIn(false);
+        setUserObj(null);
       }
       setInit(true);
     });
   }, []);
 
   return (
-    <>{init ? <Router isLoggedIn={isLoggedIn} userObj={userObj} refreshUser={refreshUser} /> : 'Initializing...'}</>
+    <>
+      {init ? <Router isLoggedIn={Boolean(userObj)} userObj={userObj} refreshUser={refreshUser} /> : 'Initializing...'}
+    </>
   );
 }
 

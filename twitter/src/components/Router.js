@@ -7,7 +7,7 @@ import Navigation from './Navigation';
 
 export default ({ isLoggedIn, userObj, refreshUser }) => {
   return (
-    <Router>
+    <Router path="/">
       {isLoggedIn && <Navigation userObj={userObj} />}
       <div
         style={{

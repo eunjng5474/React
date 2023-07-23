@@ -3,21 +3,38 @@ import { authService } from '../fbase';
 import Router from './Router';
 import { onAuthStateChanged } from 'firebase/auth';
 
+export interface UserInfo {
+  uid: string;
+  displayName: string | null;
+}
+
 function App() {
   const [ready, setReady] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
+  const [loggedInUser, setLoggedInUser] = useState<UserInfo>({
+    uid: '',
+    displayName: null,
+  });
+  // const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
-        setIsLoggedIn(user);
+        setLoggedInUser(user);
       } else {
-        setIsLoggedIn(null);
+        setLoggedInUser({ uid: '', displayName: null });
       }
       setReady(true);
     });
   }, []);
 
-  return <>{ready ? <Router isLoggedIn={isLoggedIn} /> : 'Loading...'}</>;
+  if (ready === false) {
+    return <span>Loading...</span>;
+  }
+
+  return (
+    <>
+      <Router uid={loggedInUser.uid} displayName={loggedInUser.displayName} />
+    </>
+  );
 }
 
 export default App;
